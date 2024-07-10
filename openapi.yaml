@@ -1,0 +1,24 @@
+openapi: 3.0.0
+info:
+  title: Fever Marketplace Integration API
+  version: 1.0.0
+paths:
+  /events:
+    get:
+      summary: Retrieve events
+      parameters:
+        - in: query
+          name: starts_at
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: Start date for event filtering
+        - in: query
+          name: ends_at
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: End date for event filtering
+     
