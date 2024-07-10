@@ -1,6 +1,5 @@
 import requests
-from app.api.errors.exceptions import CustomHTTPException
-from db.models import Event
+from models.domain.event import Event
 from xml.etree import ElementTree as ET
 from datetime import datetime
 
@@ -9,7 +8,7 @@ def fetch_events_from_provider():
         response = requests.get("https://provider.code-challenge.feverup.com/api/events")
         response.raise_for_status()
     except requests.RequestException as e:
-        raise CustomHTTPException(status_code=503, message="Provider API is not available") from e
+        pass
     
     events = []
     root = ET.fromstring(response.content)

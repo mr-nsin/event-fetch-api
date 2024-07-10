@@ -3,8 +3,8 @@ import psycopg2
 def initialize_db():
     conn = psycopg2.connect(
         dbname='events_db',
-        user='your_user',
-        password='your_password',
+        user='postgres',
+        password='password',
         host='localhost',
         port='5432'
     )

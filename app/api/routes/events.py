@@ -1,17 +1,18 @@
 from fastapi import APIRouter, HTTPException, Query
-from app.db.repositories import EventsRepository
-from app.dependencies.fetch import fetch_events
-from app.schemas.event import EventCreate, EventResponse
+from api.dependencies.events import EventsRepository
+from services.fetch import fetch_events_from_provider
+from models.schemas.event_response import EventResponse
 from typing import List
 from datetime import datetime
 
-router = APIRouter()
+event = APIRouter()
 events_repo = EventsRepository()
 
-@router.get("/events", response_model=List[EventResponse])
+@event.get("/events", response_model=List[EventResponse])
 async def get_events(starts_at: datetime, ends_at: datetime):
+    print(starts_at, ends_at)
     # Fetch events from external provider
-    events = fetch_events()
+    events = fetch_events_from_provider()
     
     # If events were successfully fetched, store/update them in the database
     if events:

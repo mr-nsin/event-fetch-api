@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
-from app.db.models import Event, Zone
+from models.domain.event import Event
+from models.domain.zone import Zone
 from datetime import datetime
 from typing import List
-from app.schemas.event import EventCreate
-from app.db.base import SessionLocal
+from db.repositories.base import SessionLocal
 
 class EventsRepository:
     def __init__(self, session: Session = SessionLocal()):

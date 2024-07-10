@@ -1,27 +1,32 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.openapi.utils import get_openapi
-from app.api.endpoints import events
-from app.exceptions import CustomHTTPException
-from app.db.base import Base, engine
-from typing import List
-from datetime import datetime
+from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
+import uvicorn
 
-# Create FastAPI app instance
-app = FastAPI()
+from api.routes.events import event as event_router
 
-# Include event endpoints
-app.include_router(events.router)
-
-# Run migrations on startup
-
-# Custom exception handler
-@app.exception_handler(CustomHTTPException)
-async def custom_http_exception_handler(request, exc):
-    return JSONResponse(
-        status_code=exc.status_code,
-        content={"message": exc.message}
+def get_application() -> FastAPI:
+    application = FastAPI(
+        title="My API",
+        description="My API description",
+        version="1.0.0",
+        docs_url="/docs",  # <--- Add this line
+        openapi_url="/openapi.json"  # <--- Add this line
     )
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    application.include_router(event_router)
+
+    return application
+
+
+app = get_application()
+
+if __name__ == '__main__':
+    uvicorn.run(app, host='0.0.0.0', port=8000, reload=True)
