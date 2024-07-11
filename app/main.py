@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-import uvicorn
 
 from api.routes.events import event as event_router
 
@@ -28,4 +27,5 @@ def get_application() -> FastAPI:
 app = get_application()
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=8000, reload=True)
+    import uvicorn
+    uvicorn.run("main:app", host='0.0.0.0', port=8000, reload=True, )
