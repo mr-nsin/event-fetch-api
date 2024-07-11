@@ -6,6 +6,14 @@ from datetime import datetime
 from typing import List
 
 def fetch_events_from_provider(start_at: datetime, ends_at: datetime, sell_mode: str = 'online') -> List[Event]:
+    """
+    Parameters:
+        `start_at`: Start time of event
+        `ends_at`: End time of event
+        `sell_mode`: Event sell mode
+    Returns: List of events 
+    Description: Take starts at, ends at and sell mode parameters as input and filter out the data provided from third part API.
+    """
     try:
         response = requests.get("https://provider.code-challenge.feverup.com/api/events")
         response.raise_for_status()
@@ -22,7 +30,7 @@ def fetch_events_from_provider(start_at: datetime, ends_at: datetime, sell_mode:
                 event_end_date = datetime.fromisoformat(event.get('event_end_date'))
 
                 # Check and filter out only those events which are 'online' and lies between given range
-                if sell_mode == 'online' and event_start_date >= start_at and event_end_date <= event_end_date:
+                if sell_mode == 'online' and event_start_date >= start_at and event_end_date <= ends_at:
                     zones = [
                         Zone(
                             zone_id=int(zone.get('zone_id')),

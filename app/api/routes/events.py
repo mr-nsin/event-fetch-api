@@ -1,17 +1,17 @@
 from fastapi import APIRouter, HTTPException, Query
 from api.dependencies.events import EventsRepository
 from services.fetch import fetch_events_from_provider
-from models.schemas.event_response import EventsResponse
+from models.schemas.event_response import EventList
 from typing import List
-from datetime import datetime
+from datetime import datetime, timedelta
 from services.common import generate_custom_reponse
 
 event = APIRouter()
 events_repo = EventsRepository()
 
-@event.get("/search", response_model=EventsResponse, summary="Lists the available events on a time range")
+@event.get("/search", response_model=EventList, summary="Lists the available events on a time range")
 async def get_events(
-    starts_at: datetime = Query(default=datetime.now(), description="Return only events that starts after this date"),
+    starts_at: datetime = Query(default=datetime.now() - timedelta(30), description="Return only events that starts after this date"),
     ends_at: datetime = Query(default=datetime.now(), description="Return only events that finishes before this date")
 ):
     # Fetch events from external provider

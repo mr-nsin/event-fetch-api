@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Dict, List
-class CustomEvent(BaseModel):
+class EventSummary(BaseModel):
     id: int
     title: str
     start_date: str
@@ -10,6 +10,6 @@ class CustomEvent(BaseModel):
     min_price: float
     max_price: float
 
-class EventsResponse(BaseModel):
-    data: Dict[str, List[CustomEvent]]
+class EventList(BaseModel):
+    events: List[EventSummary]
     error: str = None

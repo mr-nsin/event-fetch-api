@@ -7,9 +7,21 @@ from db.repositories.base import SessionLocal
 
 class EventsRepository:
     def __init__(self, session: Session = SessionLocal()):
+        """
+        Parameters:
+            `session`: A Session object (default: SessionLocal())
+        Returns: None
+        Description: Initializes the EventsRepository class with a session object.
+        """
         self.session = session
     
-    def create_or_update_events(self, events: List[Event]):
+    def create_or_update_events(self, events: List[Event]) -> None:
+        """
+        Parameters:
+            `events`: A list of Event objects
+        Returns: None
+        Description: Creates or updates events in the database. If an event with the same event_id exists, it updates the event; otherwise, it creates a new event.
+        """
         try:
             for event_data in events:
                 event = self.session.query(Event).filter(Event.base_event_id == event_data.base_event_id).first()
@@ -25,7 +37,13 @@ class EventsRepository:
             raise e
         
     
-    def _create_event(self, event_data: Event):
+    def _create_event(self, event_data: Event) -> None:
+        """
+        Parameters:
+            `event_data`: An Event object
+        Returns: None
+        Description: Creates a new event in the database
+        """
         try:
             
             self.session.add(event_data)
@@ -36,7 +54,14 @@ class EventsRepository:
             raise e
         
     
-    def _update_event(self, event: Event, event_data: Event):
+    def _update_event(self, event: Event, event_data: Event) -> None:
+        """
+        Parameters:
+            `event`: An existing Event object
+            `event_data`: An Event object with updated data
+        Returns: None
+        Description: Updates an existing event in the database.
+        """
         try:
             event.base_event_id = event_data.base_event_id
             event.title = event_data.title
@@ -55,7 +80,13 @@ class EventsRepository:
             raise e
         
     
-    def _create_zones(self, zones_data: List[Zone]):
+    def _create_zones(self, zones_data: List[Zone]) -> None:
+        """
+        Parameters:
+            `zones_data`: A list of Zone objects
+        Returns: None
+        Description: Creates new zones in the database.
+        """
         try:
             for zone_data in zones_data:
                 self.session.add(zone_data)
@@ -65,7 +96,14 @@ class EventsRepository:
             raise e
         
     
-    def get_events_by_date_range(self, starts_at: datetime, ends_at: datetime):
+    def get_events_by_date_range(self, starts_at: datetime, ends_at: datetime) -> List[Event]:
+        """
+        Parameters:
+            `starts_at`: A datetime object representing the start date
+            `ends_at`: A datetime object representing the end date
+        Returns: A list of Event objects
+        Description: Retrieves events that fall within the specified date range.
+        """
         try:
             events = self.session.query(Event).filter(
                 Event.event_start_date >= starts_at,
