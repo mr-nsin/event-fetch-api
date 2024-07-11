@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query
 from api.dependencies.events import EventsRepository
 from services.fetch import fetch_events_from_provider
-from models.schemas.event_response import EventList
+from models.schemas.events import EventList
 from typing import List
 from datetime import datetime, timedelta
 from services.common import generate_custom_reponse

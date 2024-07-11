@@ -1,4 +1,4 @@
-from models.schemas.event_response import EventList, EventSummary
+from models.schemas.events import EventList, EventSummary
 from models.domain.event import Event
 from typing import List
 
