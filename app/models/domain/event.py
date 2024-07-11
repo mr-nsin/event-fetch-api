@@ -4,9 +4,9 @@ from db.repositories.base import Base
 
 class Event(Base):
     __tablename__ = "events"
-
-    event_id = Column(Integer, primary_key=True, index=True)
-    base_event_id = Column(Integer)
+    
+    base_event_id = Column(Integer, primary_key=True, index=True)
+    event_id = Column(Integer)    
     title = Column(String)
     event_start_date = Column(DateTime)
     event_end_date = Column(DateTime)
@@ -15,4 +15,4 @@ class Event(Base):
     sold_out = Column(Boolean)
     sell_mode = Column(String)
 
-    zones = relationship("Zone", back_populates="event")
+    zones = relationship("Zone")

@@ -1,14 +1,15 @@
 from pydantic import BaseModel
-from datetime import datetime
-
-class EventResponse(BaseModel):
+from typing import Dict, List
+class CustomEvent(BaseModel):
     id: int
     title: str
-    description: str
-    starts_at: datetime
-    ends_at: datetime
-    created_at: datetime
-    updated_at: datetime
+    start_date: str
+    start_time: str
+    end_date: str
+    end_time: str
+    min_price: float
+    max_price: float
 
-    class Config:
-        orm_mode = True
+class EventsResponse(BaseModel):
+    data: Dict[str, List[CustomEvent]]
+    error: str = None

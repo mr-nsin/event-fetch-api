@@ -4,7 +4,7 @@ def initialize_db():
     conn = psycopg2.connect(
         dbname='events_db',
         user='postgres',
-        password='password',
+        password='pgadmin',
         host='localhost',
         port='5432'
     )
@@ -12,8 +12,8 @@ def initialize_db():
     # Create the events table
     c.execute('''
         CREATE TABLE IF NOT EXISTS events (
-            event_id INTEGER PRIMARY KEY,
-            base_event_id INTEGER,
+            base_event_id INTEGER PRIMARY KEY,
+            event_id INTEGER,
             title TEXT,
             event_start_date TIMESTAMP,
             event_end_date TIMESTAMP,
@@ -27,14 +27,14 @@ def initialize_db():
     # Create the zones table
     c.execute('''
         CREATE TABLE IF NOT EXISTS zones (
-            event_id INTEGER,
+            id SERIAL PRIMARY KEY,
+            base_event_id INTEGER,
             zone_id INTEGER,
             capacity INTEGER,
             price NUMERIC,
             name TEXT,
             numbered BOOLEAN,
-            PRIMARY KEY (event_id, zone_id),
-            FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE
+            FOREIGN KEY (base_event_id) REFERENCES events(base_event_id) ON DELETE CASCADE
         )
     ''')
     

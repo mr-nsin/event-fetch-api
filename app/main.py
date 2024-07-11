@@ -6,8 +6,7 @@ from api.routes.events import event as event_router
 
 def get_application() -> FastAPI:
     application = FastAPI(
-        title="My API",
-        description="My API description",
+        title="Fever Providers API",
         version="1.0.0",
         docs_url="/docs",  # <--- Add this line
         openapi_url="/openapi.json"  # <--- Add this line
